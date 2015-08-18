@@ -258,6 +258,7 @@
                 this.CheckBrowserGaleon() ||
                 this.CheckBrowserNetscapeNavigator9Plus() ||
                 this.CheckBrowserFireFox() ||
+                this.CheckBrowserEdge() ||
                 this.CheckBrowserChrome() ||
                 this.CheckBrowserOmniWeb() ||
                 this.CheckBrowserAndroid() ||
@@ -284,6 +285,26 @@
                 this.CheckBrowserIceweasel() ||
                 this.CheckBrowserW3CValidator() ||
                 this.CheckBrowserMozilla();
+        }
+
+        protected bool CheckForAol()
+        {
+            this._isAol = false;
+            this._aolVersion = Unknown;
+
+            if (this._userAgentToLower.Contains("aol"))
+            {
+                var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("aol")).Split(' ');
+                if (aversion.Count() >= 2)
+                {
+                    this._isAol = true;
+                    this._aolVersion = aversion[1].Replace(@"/[^0-9\.a-z]/i", string.Empty);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         protected bool CheckBrowserBlackBerry()
@@ -1185,18 +1206,29 @@
             return false;
         }
 
-        protected bool CheckForAol()
+        protected bool CheckBrowserEdge()
         {
-            this._isAol = false;
-            this._aolVersion = Unknown;
-
-            if (this._userAgentToLower.Contains("aol"))
+            if (this._userAgentToLower.Contains("edge"))
             {
-                var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("aol")).Split(' ');
-                if (aversion.Count() >= 2)
+                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("edge")).Split('/');
+                if (aresult.Count() >= 2)
                 {
-                    this._isAol = true;
-                    this._aolVersion = aversion[1].Replace(@"/[^0-9\.a-z]/i", string.Empty);
+                    var aversion = aresult[1].Split(' ');
+
+                    this.Version = aversion[0];
+                    this.BrowserName = Browser.Edge;
+
+                    if (this._userAgentToLower.Contains("android"))
+                    {
+                        if (this._userAgentToLower.Contains("mobile"))
+                        {
+                            this.IsMobile = true;
+                        }
+                        else
+                        {
+                            this.IsTablet = true;
+                        }
+                    }
 
                     return true;
                 }

@@ -59,9 +59,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Browser.NET\Browser.NET.csproj">
       <Project>{EBC41E8C-4A30-4FBC-9D99-616807273522}</Project>
       <Name>Browser.NET</Name>

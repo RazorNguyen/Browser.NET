@@ -37,6 +37,7 @@
         public const string NetscapeNavigator = "Netscape Navigator";
         public const string Galeon = "Galeon";
         public const string NetPositive = "NetPositive";
-        public const string Phoenix = "Phoenix";        
+        public const string Phoenix = "Phoenix";
+        public const string Edge = "Edge";
     }
 }
