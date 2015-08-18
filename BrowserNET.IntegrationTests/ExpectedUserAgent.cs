@@ -1,4 +1,4 @@
-﻿namespace Browser.NET.IntegrationTests
+﻿namespace BrowserNET.IntegrationTests
 {
     public class ExpectedUserAgent
     {

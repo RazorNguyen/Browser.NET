@@ -1,4 +1,4 @@
-﻿namespace Browser.NET
+﻿namespace BrowserNET
 {
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -1088,7 +1088,7 @@
             return false;
         }
 
-        protected bool GetSafariVersionOnIos()
+        protected bool GetSafariOnIos()
         {
             if (this._userAgentToLower.Contains("version"))
             {
@@ -1096,6 +1096,7 @@
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
+                    this.BrowserName = Browser.Safari;
                     this.Version = aversion[0];
 
                     return true;
@@ -1105,7 +1106,7 @@
             return false;
         }
 
-        protected bool GetChromeVersionOnIos()
+        protected bool GetChromeOnIos()
         {
             if (this._userAgentToLower.Contains("crios"))
             {
@@ -1129,8 +1130,8 @@
             {
                 this.Version = Unknown;
                 this.BrowserName = Browser.Iphone;
-                this.GetSafariVersionOnIos();
-                this.GetChromeVersionOnIos();
+                this.GetSafariOnIos();
+                this.GetChromeOnIos();
                 this.CheckFacebookIos();
                 this.IsMobile = true;
 
@@ -1146,8 +1147,8 @@
             {
                 this.Version = Unknown;
                 this.BrowserName = Browser.Ipad;
-                this.GetSafariVersionOnIos();
-                this.GetChromeVersionOnIos();
+                this.GetSafariOnIos();
+                this.GetChromeOnIos();
                 this.CheckFacebookIos();
                 this.IsTablet = true;
 
@@ -1163,8 +1164,8 @@
             {
                 this.Version = Unknown;
                 this.BrowserName = Browser.Ipod;
-                this.GetSafariVersionOnIos();
-                this.GetChromeVersionOnIos();
+                this.GetSafariOnIos();
+                this.GetChromeOnIos();
                 this.CheckFacebookIos();
                 this.IsMobile = true;
 

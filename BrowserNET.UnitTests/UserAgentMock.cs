@@ -1,4 +1,4 @@
-﻿namespace Browser.NET.UnitTests
+﻿namespace BrowserNET.UnitTests
 {
     public class UserAgentMock : UserAgent
     {

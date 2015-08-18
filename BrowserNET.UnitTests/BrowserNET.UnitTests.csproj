@@ -9,8 +9,8 @@
     <ProjectGuid>{B68B2ECA-EE8E-46E6-9BAC-F13A0A5B7FD8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Browser.NET.UnitTests</RootNamespace>
-    <AssemblyName>Browser.NET.UnitTests</AssemblyName>
+    <RootNamespace>BrowserNET.UnitTests</RootNamespace>
+    <AssemblyName>BrowserNET.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -53,9 +53,9 @@
     <Compile Include="UserAgentTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Browser.NET\Browser.NET.csproj">
+    <ProjectReference Include="..\BrowserNET\BrowserNET.csproj">
       <Project>{EBC41E8C-4A30-4FBC-9D99-616807273522}</Project>
-      <Name>Browser.NET</Name>
+      <Name>BrowserNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

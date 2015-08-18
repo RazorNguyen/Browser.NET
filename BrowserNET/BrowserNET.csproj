@@ -8,8 +8,8 @@
     <ProjectGuid>{EBC41E8C-4A30-4FBC-9D99-616807273522}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Browser.NET</RootNamespace>
-    <AssemblyName>Browser.NET</AssemblyName>
+    <RootNamespace>BrowserNET</RootNamespace>
+    <AssemblyName>BrowserNET</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

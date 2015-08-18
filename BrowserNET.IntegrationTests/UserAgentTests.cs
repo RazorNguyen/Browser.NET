@@ -1,4 +1,4 @@
-﻿namespace Browser.NET.IntegrationTests
+﻿namespace BrowserNET.IntegrationTests
 {
     using System;
     using System.Collections.Generic;

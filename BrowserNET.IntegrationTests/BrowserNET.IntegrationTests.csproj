@@ -8,8 +8,8 @@
     <ProjectGuid>{191B748A-7259-4438-8FCD-2DB535EF823A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Browser.NET.IntegrationTests</RootNamespace>
-    <AssemblyName>Browser.NET.IntegrationTests</AssemblyName>
+    <RootNamespace>BrowserNET.IntegrationTests</RootNamespace>
+    <AssemblyName>BrowserNET.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,9 +59,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Browser.NET\Browser.NET.csproj">
+    <ProjectReference Include="..\BrowserNET\BrowserNET.csproj">
       <Project>{EBC41E8C-4A30-4FBC-9D99-616807273522}</Project>
-      <Name>Browser.NET</Name>
+      <Name>BrowserNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

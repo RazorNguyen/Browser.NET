@@ -1,4 +1,4 @@
-﻿namespace Browser.NET
+﻿namespace BrowserNET
 {
     public class Platforms
     {
