@@ -36,5 +36,10 @@
         {
             return this.CheckBrowserChrome();
         }
+
+        public void CheckPlatforms()
+        {
+            base.CheckPlatform();
+        }
     }
 }

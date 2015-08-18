@@ -307,10 +307,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0 ";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Windows, browser.Platform);
@@ -321,10 +321,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (iPad; CPU OS 8_1_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B440 Safari/600.1.4 ";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Ipad, browser.Platform);
@@ -335,10 +335,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4 ";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Iphone, browser.Platform);
@@ -349,10 +349,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8) AppleWebKit/536.25 (KHTML, like Gecko) Version/6.0 Safari/536.25";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Apple, browser.Platform);
@@ -363,10 +363,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-fr; Desire HD Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Android, browser.Platform);
@@ -377,10 +377,10 @@
         {
             // Arrange
             var agent = "Mozilla/5.0 (X11; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0";
-            var browser = new UserAgent(agent);
+            var browser = new UserAgentMock(agent);
 
             // Action
-            browser.Determine();
+            browser.CheckPlatforms();
 
             // Assert
             Assert.AreEqual(Platforms.Linux, browser.Platform);
