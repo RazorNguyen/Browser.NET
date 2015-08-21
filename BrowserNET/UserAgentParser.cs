@@ -269,6 +269,7 @@
                 CheckBrowserNetscapeNavigator9Plus() ||
                 CheckBrowserFireFox() ||
                 CheckBrowserEdge() ||
+                CheckBrowserUC() ||
                 CheckBrowserChrome() ||
                 CheckBrowserOmniWeb() ||
                 CheckBrowserAndroid() ||
@@ -1239,6 +1240,35 @@
                         {
                             IsTablet = true;
                         }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        protected bool CheckBrowserUC()
+        {
+            if (_userAgentToLower.Contains("ucbrowser") || _userAgentToLower.Contains("ubrowser"))
+            {
+                var index = _userAgentToLower.IndexOf("ucbrowser") == -1 ? _userAgentToLower.IndexOf("ubrowser") : _userAgentToLower.IndexOf("ucbrowser");
+                var aresult = _userAgent.Substring(index).Split('/');
+                if (aresult.Count() >= 2)
+                {
+                    var aversion = aresult[1].Split(' ');
+
+                    Version = aversion[0];
+                    BrowserName = Browser.UC;
+
+                    if (_userAgentToLower.Contains("mobile"))
+                    {
+                        IsMobile = true;
+                    }
+                    else
+                    {
+                        IsTablet = true;
                     }
 
                     return true;

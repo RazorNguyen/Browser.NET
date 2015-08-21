@@ -300,7 +300,35 @@
 
             // Assert
             Assert.AreEqual(Browser.Edge, browser.BrowserName);
-        }        
+        }
+
+        [Test]
+        public void CheckBrowserUC_ContainUCOnPC_ExpectedEdge()
+        {
+            // Arrage
+            var agent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 UBrowser/5.4.4237.1024 Safari/537.36 ";
+            var browser = new UserAgentMock(agent);
+
+            // Action
+            browser.CheckUC();
+
+            // Assert
+            Assert.AreEqual(Browser.UC, browser.BrowserName);            
+        }
+
+        [Test]
+        public void CheckBrowserUC_ContainUCOnAndroid_ExpectedEdge()
+        {
+            // Arrage
+            var agent = "Mozilla/5.0 (Linux; U; Android 4.0.4; en-US; LT28h Build/6.1.E.3.7) AppleWebKit/534.31 (KHTML, like Gecko) UCBrowser/9.2.2.323 U3/0.8.0 Mobile Safari/534.31";
+            var browser = new UserAgentMock(agent);
+
+            // Action
+            browser.CheckUC();
+
+            // Assert
+            Assert.AreEqual(Browser.UC, browser.BrowserName);
+        } 
 
         [Test]
         public void CheckPlatform_ContainWindows_ExpectedWindows()

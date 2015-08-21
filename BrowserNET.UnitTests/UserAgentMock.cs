@@ -7,6 +7,11 @@
         {
         }
 
+        public bool CheckUC()
+        {
+            return this.CheckBrowserUC();
+        }
+
         public bool CheckEdge()
         {
             return this.CheckBrowserEdge();

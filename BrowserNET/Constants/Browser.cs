@@ -39,5 +39,6 @@
         public const string NetPositive = "NetPositive";
         public const string Phoenix = "Phoenix";
         public const string Edge = "Edge";
+		public const string UC = "UCBrowser";
     }
 }
