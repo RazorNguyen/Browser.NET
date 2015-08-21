@@ -1,6 +1,6 @@
 ﻿namespace BrowserNET.UnitTests
 {
-    public class UserAgentMock : UserAgent
+    public class UserAgentMock : UserAgentParser
     {
         public UserAgentMock(string agent)
             : base(agent)

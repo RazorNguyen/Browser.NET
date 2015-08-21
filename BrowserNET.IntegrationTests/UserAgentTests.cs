@@ -21,7 +21,7 @@
             // Act
             foreach (var expectedAgent in expectedUserAgents)
             {
-                var userAgentNet = new UserAgent(expectedAgent.RawUserAgent);
+                var userAgentNet = new UserAgentParser(expectedAgent.RawUserAgent);
                 userAgentNet.Determine();
 
                 // Assert
@@ -42,7 +42,7 @@
                 Assert.AreEqual(expectedAgent.Version, userAgentNet.Version);
                 Assert.AreEqual(expectedAgent.AolVersion, userAgentNet.AolVersion);
                 Assert.AreEqual(expectedAgent.IsAol, userAgentNet.IsAol);
-                Assert.AreEqual(expectedAgent.IsChromeFrame, userAgentNet.IsChromeFrame());
+                Assert.AreEqual(expectedAgent.IsChromeFrame, userAgentNet.IsChromeFrame);
                 Assert.AreEqual(expectedAgent.IsFacebook, userAgentNet.IsFacebook);
                 Assert.AreEqual(expectedAgent.IsMobile, userAgentNet.IsMobile);
                 Assert.AreEqual(expectedAgent.IsRobot, userAgentNet.IsRobot);

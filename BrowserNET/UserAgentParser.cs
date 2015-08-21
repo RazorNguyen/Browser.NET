@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    public class UserAgent
+    public class UserAgentParser
     {
         private const string Unknown = "unknown";
         private string _userAgent;
@@ -15,22 +15,23 @@
         private bool _isTablet;
         private bool _isMobile;
         private bool _isAol;
+        private bool _isChromeFrame;
         private string _aolVersion;
         private string _platform;
 
-        public UserAgent(string userAgent)
+        public UserAgentParser(string userAgent)
         {
-            this._userAgent = userAgent;
-            this._userAgentToLower = userAgent.ToLower();
-            this.BrowserName = Browser.Unknown;
-            this.Version = Unknown;
-            this.Platform = Platforms.Unknown;
-            this.AolVersion = Unknown;
-            this.IsMobile = false;
-            this.IsRobot = false;
-            this.IsTablet = false;
-            this.IsFacebook = false;
-            this.IsAol = false;
+            _userAgent = userAgent;
+            _userAgentToLower = userAgent.ToLower();
+            BrowserName = Browser.Unknown;
+            Version = Unknown;
+            Platform = Platforms.Unknown;
+            AolVersion = Unknown;
+            IsMobile = false;
+            IsRobot = false;
+            IsTablet = false;
+            IsFacebook = false;
+            IsAol = false;
         }
 
         public string AolVersion
@@ -152,9 +153,17 @@
             }
         }
 
-        public bool IsChromeFrame()
+        public bool IsChromeFrame
         {
-            return this._userAgentToLower.Contains("chromeframe");
+            get
+            {
+                return _isChromeFrame;
+            }
+
+            set
+            {
+                _isChromeFrame = value;
+            }
         }
 
         public void Determine()
@@ -170,71 +179,71 @@
         {
             if (_userAgentToLower.Contains("windows"))
             {
-                this.Platform = Platforms.Windows;
+                Platform = Platforms.Windows;
             }
             else if (_userAgentToLower.Contains("ipad"))
             {
-                this.Platform = Platforms.Ipad;
+                Platform = Platforms.Ipad;
             }
             else if (_userAgentToLower.Contains("ipod"))
             {
-                this.Platform = Platforms.Ipod;
+                Platform = Platforms.Ipod;
             }
             else if (_userAgentToLower.Contains("iphone"))
             {
-                this.Platform = Platforms.Iphone;
+                Platform = Platforms.Iphone;
             }
             else if (_userAgentToLower.Contains("mac"))
             {
-                this.Platform = Platforms.Apple;
+                Platform = Platforms.Apple;
             }
             else if (_userAgentToLower.Contains("android"))
             {
-                this.Platform = Platforms.Android;
+                Platform = Platforms.Android;
             }
             else if (_userAgentToLower.Contains("linux"))
             {
-                this.Platform = Platforms.Linux;
+                Platform = Platforms.Linux;
             }
             else if (_userAgentToLower.Contains("nokia"))
             {
-                this.Platform = Platforms.Nokia;
+                Platform = Platforms.Nokia;
             }
             else if (_userAgentToLower.Contains("blackberry"))
             {
-                this.Platform = Platforms.BlackBerry;
+                Platform = Platforms.BlackBerry;
             }
             else if (_userAgentToLower.Contains("Freebsd"))
             {
-                this.Platform = Platforms.FreeBSD;
+                Platform = Platforms.FreeBSD;
             }
             else if (_userAgentToLower.Contains("openbsd"))
             {
-                this.Platform = Platforms.OpenBSD;
+                Platform = Platforms.OpenBSD;
             }
             else if (_userAgentToLower.Contains("netbsd"))
             {
-                this.Platform = Platforms.NetBSD;
+                Platform = Platforms.NetBSD;
             }
             else if (_userAgentToLower.Contains("opensolaris"))
             {
-                this.Platform = Platforms.OpenSolaris;
+                Platform = Platforms.OpenSolaris;
             }
             else if (_userAgentToLower.Contains("sunos"))
             {
-                this.Platform = Platforms.SunOS;
+                Platform = Platforms.SunOS;
             }
             else if (_userAgentToLower.Contains("os\\//2"))
             {
-                this.Platform = Platforms.OS2;
+                Platform = Platforms.OS2;
             }
             else if (_userAgentToLower.Contains("beos"))
             {
-                this.Platform = Platforms.BeOS;
+                Platform = Platforms.BeOS;
             }
             else if (_userAgentToLower.Contains("win"))
             {
-                this.Platform = Platforms.Windows;
+                Platform = Platforms.Windows;
             }
         }
 
@@ -252,53 +261,54 @@
             //     before Safari
             // (5) Netscape 9+ is based on Firefox so Netscape checks
             //     before FireFox are necessary
-            return this.CheckBrowserWebTv() ||
-                this.CheckBrowserInternetExplore() ||
-                this.CheckBrowserOpera() ||
-                this.CheckBrowserGaleon() ||
-                this.CheckBrowserNetscapeNavigator9Plus() ||
-                this.CheckBrowserFireFox() ||
-                this.CheckBrowserEdge() ||
-                this.CheckBrowserChrome() ||
-                this.CheckBrowserOmniWeb() ||
-                this.CheckBrowserAndroid() ||
-                this.CheckBrowseriPad() ||
-                this.CheckBrowseriPod() ||
-                this.CheckBrowseriPhone() ||
-                this.CheckBrowserBlackBerry() ||
-                this.CheckBrowserNokia() ||
-                this.CheckBrowserGoogleBot() ||
-                this.CheckBrowserMSNBot() ||
-                this.CheckBrowserBingBot() ||
-                this.CheckBrowserSlurp() ||
-                this.CheckFacebookExternalHit() ||
-                this.CheckBrowserSafari() ||
-                this.CheckBrowserNetPositive() ||
-                this.CheckBrowserFirebird() ||
-                this.CheckBrowserKonqueror() ||
-                this.CheckBrowserIcab() ||
-                this.CheckBrowserPhoenix() ||
-                this.CheckBrowserAmaya() ||
-                this.CheckBrowserLynx() ||
-                this.CheckBrowserShiretoko() ||
-                this.CheckBrowserIceCat() ||
-                this.CheckBrowserIceweasel() ||
-                this.CheckBrowserW3CValidator() ||
-                this.CheckBrowserMozilla();
+            return CheckChromeFrame() ||
+                CheckBrowserWebTv() ||
+                CheckBrowserInternetExplore() ||
+                CheckBrowserOpera() ||
+                CheckBrowserGaleon() ||
+                CheckBrowserNetscapeNavigator9Plus() ||
+                CheckBrowserFireFox() ||
+                CheckBrowserEdge() ||
+                CheckBrowserChrome() ||
+                CheckBrowserOmniWeb() ||
+                CheckBrowserAndroid() ||
+                CheckBrowseriPad() ||
+                CheckBrowseriPod() ||
+                CheckBrowseriPhone() ||
+                CheckBrowserBlackBerry() ||
+                CheckBrowserNokia() ||
+                CheckBrowserGoogleBot() ||
+                CheckBrowserMSNBot() ||
+                CheckBrowserBingBot() ||
+                CheckBrowserSlurp() ||
+                CheckFacebookExternalHit() ||
+                CheckBrowserSafari() ||
+                CheckBrowserNetPositive() ||
+                CheckBrowserFirebird() ||
+                CheckBrowserKonqueror() ||
+                CheckBrowserIcab() ||
+                CheckBrowserPhoenix() ||
+                CheckBrowserAmaya() ||
+                CheckBrowserLynx() ||
+                CheckBrowserShiretoko() ||
+                CheckBrowserIceCat() ||
+                CheckBrowserIceweasel() ||
+                CheckBrowserW3CValidator() ||
+                CheckBrowserMozilla();
         }
 
         protected bool CheckForAol()
         {
-            this._isAol = false;
-            this._aolVersion = Unknown;
+            _isAol = false;
+            _aolVersion = Unknown;
 
-            if (this._userAgentToLower.Contains("aol"))
+            if (_userAgentToLower.Contains("aol"))
             {
-                var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("aol")).Split(' ');
+                var aversion = _userAgent.Substring(_userAgentToLower.IndexOf("aol")).Split(' ');
                 if (aversion.Count() >= 2)
                 {
-                    this._isAol = true;
-                    this._aolVersion = aversion[1].Replace(@"/[^0-9\.a-z]/i", string.Empty);
+                    _isAol = true;
+                    _aolVersion = aversion[1].Replace(@"/[^0-9\.a-z]/i", string.Empty);
 
                     return true;
                 }
@@ -311,13 +321,13 @@
         {
             if (_userAgentToLower.Contains("blackberry"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("blackberry")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("blackberry")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.BlackBerry;
-                    this.IsMobile = true;
+                    Version = aversion[0];
+                    BrowserName = Browser.BlackBerry;
+                    IsMobile = true;
 
                     return true;
                 }
@@ -330,13 +340,13 @@
         {
             if (_userAgentToLower.Contains("googlebot"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("googlebot")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("googlebot")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0].Replace(';', ' ');
-                    this.BrowserName = Browser.GoogleBot;
-                    this.IsRobot = true;
+                    Version = aversion[0].Replace(';', ' ');
+                    BrowserName = Browser.GoogleBot;
+                    IsRobot = true;
 
                     return true;
                 }
@@ -349,13 +359,13 @@
         {
             if (_userAgentToLower.Contains("msnbot"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("msnbot")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("msnbot")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0].Replace(';', ' ');
-                    this.BrowserName = Browser.MsnBot;
-                    this.IsRobot = true;
+                    Version = aversion[0].Replace(';', ' ');
+                    BrowserName = Browser.MsnBot;
+                    IsRobot = true;
 
                     return true;
                 }
@@ -368,13 +378,13 @@
         {
             if (_userAgentToLower.Contains("bingbot"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("bingbot")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("bingbot")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0].Replace(';', ' ');
-                    this.BrowserName = Browser.BingBot;
-                    this.IsRobot = true;
+                    Version = aversion[0].Replace(';', ' ');
+                    BrowserName = Browser.BingBot;
+                    IsRobot = true;
 
                     return true;
                 }
@@ -385,37 +395,37 @@
 
         protected bool CheckBrowserW3CValidator()
         {
-            if (this._userAgentToLower.Contains("w3c-checklink"))
+            if (_userAgentToLower.Contains("w3c-checklink"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("w3c-checklink")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("w3c-checklink")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var version = aresult[1].Split(' ');
-                    this.Version = version[0];
-                    this.BrowserName = Browser.W3cValidation;
+                    Version = version[0];
+                    BrowserName = Browser.W3cValidation;
 
                     return true;
                 }
             }
-            else if (this._userAgentToLower.Contains("w3c_validator"))
+            else if (_userAgentToLower.Contains("w3c_validator"))
             {
                 // Some of the Validator versions do not delineate w/ a slash - add it back in
-                var tempUserAgent = this._userAgentToLower.Replace("w3c_validator ", "w3c_validator/");
+                var tempUserAgent = _userAgentToLower.Replace("w3c_validator ", "w3c_validator/");
                 var index = tempUserAgent.IndexOf("w3c_validator");
                 var aresult = tempUserAgent.Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.W3cValidation;
+                    Version = aversion[0];
+                    BrowserName = Browser.W3cValidation;
 
                     return true;
                 }
             }
-            else if (this._userAgentToLower.Contains("w3c-mobileok"))
+            else if (_userAgentToLower.Contains("w3c-mobileok"))
             {
-                this.BrowserName = Browser.W3cValidation;
-                this.IsMobile = true;
+                BrowserName = Browser.W3cValidation;
+                IsMobile = true;
 
                 return true;
             }
@@ -425,17 +435,17 @@
 
         protected bool CheckBrowserSlurp()
         {
-            if (this._userAgentToLower.Contains("slurp"))
+            if (_userAgentToLower.Contains("slurp"))
             {
-                var slurp = this._userAgent.Substring(this._userAgentToLower.IndexOf("slurp"));
+                var slurp = _userAgent.Substring(_userAgentToLower.IndexOf("slurp"));
                 var aresult = slurp.Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Slurp;
-                    this.IsMobile = false;
-                    this.IsRobot = true;
+                    Version = aversion[0];
+                    BrowserName = Browser.Slurp;
+                    IsMobile = false;
+                    IsRobot = true;
 
                     return true;
                 }
@@ -447,95 +457,95 @@
         protected bool CheckBrowserInternetExplore()
         {
             // Test for IE11
-            if (this._userAgentToLower.Contains("trident/7.0; rv:11.0"))
+            if (_userAgentToLower.Contains("trident/7.0; rv:11.0"))
             {
-                this.BrowserName = Browser.IE;
-                this.Version = "11.0";
+                BrowserName = Browser.IE;
+                Version = "11.0";
 
                 return true;
             }
-            else if (this._userAgentToLower.Contains("microsoft internet explorer"))
+            else if (_userAgentToLower.Contains("microsoft internet explorer"))
             {
                 // Test for v1 - v1.5 IE
-                this.BrowserName = Browser.IE;
-                this.Version = "1.0";
-                var aresult = this._userAgentToLower.Substring(this._userAgentToLower.IndexOf('/'));
+                BrowserName = Browser.IE;
+                Version = "1.0";
+                var aresult = _userAgentToLower.Substring(_userAgentToLower.IndexOf('/'));
                 var regex = new Regex(@"308|425|426|474|0b1");
                 var match = regex.Match(aresult);
                 if (match.Success)
                 {
-                    this.Version = "1.5";
+                    Version = "1.5";
                 }
 
                 return true;
             }
-            else if (this._userAgentToLower.Contains("msie") && !this._userAgentToLower.Contains("opera"))
+            else if (_userAgentToLower.Contains("msie") && !_userAgentToLower.Contains("opera"))
             {
                 // Test for versions > 1.5
                 // See if the browser is the odd MSN Explorer
-                if (this._userAgentToLower.Contains("msnb"))
+                if (_userAgentToLower.Contains("msnb"))
                 {
-                    var index = this._userAgentToLower.Replace(";", "; ").IndexOf("msn");
-                    var msn = this._userAgentToLower.Substring(index);
+                    var index = _userAgentToLower.Replace(";", "; ").IndexOf("msn");
+                    var msn = _userAgentToLower.Substring(index);
                     var aresult = msn.Split(' ');
                     if (aresult.Count() >= 2)
                     {
-                        this.BrowserName = Browser.Msn;
-                        this.Version = aresult[1].Replace('(', ' ').Replace(')', ' ').Replace(';', ' ');
+                        BrowserName = Browser.Msn;
+                        Version = aresult[1].Replace('(', ' ').Replace(')', ' ').Replace(';', ' ');
 
                         return true;
                     }
                 }
 
-                var temp = this._userAgent.Replace(";", "; ");
+                var temp = _userAgent.Replace(";", "; ");
                 var aresult2 = temp.Substring(temp.IndexOf("MSIE")).Split(' ');
                 if (aresult2.Count() >= 2)
                 {
-                    this.BrowserName = Browser.IE;
-                    this.Version = aresult2[1].Replace("(", string.Empty).Replace(")", string.Empty).Replace(";", string.Empty);
-                    if (this._userAgentToLower.Contains("iemobile"))
+                    BrowserName = Browser.IE;
+                    Version = aresult2[1].Replace("(", string.Empty).Replace(")", string.Empty).Replace(";", string.Empty);
+                    if (_userAgentToLower.Contains("iemobile"))
                     {
-                        this.BrowserName = Browser.PocketIE;
-                        this.IsMobile = true;
+                        BrowserName = Browser.PocketIE;
+                        IsMobile = true;
                     }
 
                     return true;
                 }
             }
-            else if (this._userAgentToLower.Contains("trident"))
+            else if (_userAgentToLower.Contains("trident"))
             {
                 // Test for versions > IE 10
-                this.BrowserName = Browser.IE;
-                var result = this._userAgentToLower.Split(new string[] { "rv:" }, System.StringSplitOptions.None);
+                BrowserName = Browser.IE;
+                var result = _userAgentToLower.Split(new string[] { "rv:" }, System.StringSplitOptions.None);
                 if (result.Count() >= 2)
                 {
                     var regex = new Regex(@"[^0-9\.]+");
-                    this.Version = regex.Replace(result[1], string.Empty);
-                    this._userAgentToLower = this._userAgentToLower.Replace("mozilla", "msie").Replace("gecko", "msie");
-                    this._userAgent = this._userAgent.Replace("Mozilla", "MSIE").Replace("Gecko", "MSIE");
+                    Version = regex.Replace(result[1], string.Empty);
+                    _userAgentToLower = _userAgentToLower.Replace("mozilla", "msie").Replace("gecko", "msie");
+                    _userAgent = _userAgent.Replace("Mozilla", "MSIE").Replace("Gecko", "MSIE");
                 }
             }
-            else if (this._userAgentToLower.Contains("mspie") || this._userAgentToLower.Contains("pocket"))
+            else if (_userAgentToLower.Contains("mspie") || _userAgentToLower.Contains("pocket"))
             {
                 // Test for Pocket IE
-                var index = this._userAgentToLower.IndexOf("mspie") == -1 ? this._userAgentToLower.IndexOf("pocket") : this._userAgentToLower.IndexOf("mspie");
-                var aresult = this._userAgent.Substring(index).Split(' ');
+                var index = _userAgentToLower.IndexOf("mspie") == -1 ? _userAgentToLower.IndexOf("pocket") : _userAgentToLower.IndexOf("mspie");
+                var aresult = _userAgent.Substring(index).Split(' ');
                 if (aresult.Count() >= 2)
                 {
-                    this.Platform = Platforms.WindowsCE;
-                    this.BrowserName = Browser.PocketIE;
-                    this.IsMobile = true;
+                    Platform = Platforms.WindowsCE;
+                    BrowserName = Browser.PocketIE;
+                    IsMobile = true;
 
-                    if (this._userAgentToLower.Contains("mspie"))
+                    if (_userAgentToLower.Contains("mspie"))
                     {
-                        this.Version = aresult[1];
+                        Version = aresult[1];
                     }
                     else
                     {
-                        var aversion = this._userAgentToLower.Split('/');
+                        var aversion = _userAgentToLower.Split('/');
                         if (aversion.Count() >= 2)
                         {
-                            this.Version = aversion[1];
+                            Version = aversion[1];
                         }
                     }
                 }
@@ -546,9 +556,9 @@
 
         protected bool CheckBrowserOpera()
         {
-            if (this._userAgentToLower.Contains("opera mini"))
+            if (_userAgentToLower.Contains("opera mini"))
             {
-                var resultant = this._userAgent.Substring(this._userAgentToLower.IndexOf("opera mini"));
+                var resultant = _userAgent.Substring(_userAgentToLower.IndexOf("opera mini"));
                 var regex = new Regex(@"/");
                 var match = regex.Match(resultant);
                 if (match.Success)
@@ -557,7 +567,7 @@
                     if (aresult.Count() >= 2)
                     {
                         var aversion = aresult[1].Split(' ');
-                        this.Version = aversion[0];
+                        Version = aversion[0];
                     }
                 }
                 else
@@ -565,23 +575,23 @@
                     var aversion = resultant.Substring(resultant.IndexOf("Opera Mini")).Split(' ');
                     if (aversion.Count() >= 2)
                     {
-                        this.Version = aversion[1];
+                        Version = aversion[1];
                     }
                 }
 
-                this.BrowserName = Browser.OperaMini;
-                this.IsMobile = true;
+                BrowserName = Browser.OperaMini;
+                IsMobile = true;
 
                 return true;
             }
-            else if (this._userAgentToLower.Contains("opera"))
+            else if (_userAgentToLower.Contains("opera"))
             {
-                var resultant = this._userAgent.Substring(this._userAgentToLower.IndexOf("opera"));
+                var resultant = _userAgent.Substring(_userAgentToLower.IndexOf("opera"));
                 var regex = new Regex(@"Version/(1\d.[\d]+)");
                 var match = regex.Match(resultant);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
+                    Version = match.Groups[1].Value;
                 }
                 else
                 {
@@ -593,28 +603,28 @@
                         if (aresult.Count() >= 2)
                         {
                             var aversion = aresult[1].Split(' ');
-                            this.Version = aversion[0];
+                            Version = aversion[0];
                         }
                     }
                     else
                     {
                         var aversion = resultant.Substring(resultant.IndexOf("Opera")).Split(' ');
-                        this.Version = aversion.Count() >= 2 ? aversion[1] : string.Empty;
+                        Version = aversion.Count() >= 2 ? aversion[1] : string.Empty;
                     }
                 }
 
-                if (this._userAgentToLower.Contains("opera mobi"))
+                if (_userAgentToLower.Contains("opera mobi"))
                 {
-                    this.IsMobile = true;
+                    IsMobile = true;
                 }
 
-                this.BrowserName = Browser.Opera;
+                BrowserName = Browser.Opera;
 
                 return true;
             }
-            else if (this._userAgentToLower.Contains("opr"))
+            else if (_userAgentToLower.Contains("opr"))
             {
-                var resultant = this._userAgent.Substring(this._userAgentToLower.IndexOf("opr"));
+                var resultant = _userAgent.Substring(_userAgentToLower.IndexOf("opr"));
                 var regex = new Regex(@"/");
                 var match = regex.Match(resultant);
                 if (match.Success)
@@ -623,16 +633,16 @@
                     if (aresult.Count() >= 2)
                     {
                         var aversion = aresult[1].Split(' ');
-                        this.Version = aversion[0];
+                        Version = aversion[0];
                     }
                 }
 
-                if (this._userAgentToLower.Contains("mobile"))
+                if (_userAgentToLower.Contains("mobile"))
                 {
-                    this.IsMobile = true;
+                    IsMobile = true;
                 }
 
-                this.BrowserName = Browser.Opera;
+                BrowserName = Browser.Opera;
 
                 return true;
             }
@@ -642,25 +652,25 @@
 
         protected bool CheckBrowserChrome()
         {
-            if (this._userAgentToLower.Contains("chrome"))
+            if (_userAgentToLower.Contains("chrome"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("chrome")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("chrome")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Chrome;
+                    Version = aversion[0];
+                    BrowserName = Browser.Chrome;
 
                     // Chrome on Android
-                    if (this._userAgentToLower.Contains("android"))
+                    if (_userAgentToLower.Contains("android"))
                     {
-                        if (this._userAgentToLower.Contains("mobile"))
+                        if (_userAgentToLower.Contains("mobile"))
                         {
-                            this.IsMobile = true;
+                            IsMobile = true;
                         }
                         else
                         {
-                            this.IsTablet = true;
+                            IsTablet = true;
                         }
                     }
 
@@ -673,14 +683,14 @@
 
         protected bool CheckBrowserWebTv()
         {
-            if (this._userAgentToLower.Contains("webtv"))
+            if (_userAgentToLower.Contains("webtv"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("webtv")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("webtv")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.WebTv;
+                    Version = aversion[0];
+                    BrowserName = Browser.WebTv;
 
                     return true;
                 }
@@ -691,14 +701,14 @@
 
         protected bool CheckBrowserNetPositive()
         {
-            if (this._userAgentToLower.Contains("netpositive"))
+            if (_userAgentToLower.Contains("netpositive"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("netpositive")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("netpositive")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0].Replace("(", string.Empty).Replace(")", string.Empty).Replace(";", string.Empty);
-                    this.BrowserName = Browser.NetPositive;
+                    Version = aversion[0].Replace("(", string.Empty).Replace(")", string.Empty).Replace(";", string.Empty);
+                    BrowserName = Browser.NetPositive;
 
                     return true;
                 }
@@ -709,14 +719,14 @@
 
         protected bool CheckBrowserGaleon()
         {
-            if (this._userAgentToLower.Contains("galeon"))
+            if (_userAgentToLower.Contains("galeon"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("galeon")).Split(' ');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("galeon")).Split(' ');
                 var aversion = aresult[0].Split('/');
                 if (aversion.Count() >= 2)
                 {
-                    this.Version = aversion[1];
-                    this.BrowserName = Browser.Galeon;
+                    Version = aversion[1];
+                    BrowserName = Browser.Galeon;
 
                     return true;
                 }
@@ -727,14 +737,14 @@
 
         protected bool CheckBrowserKonqueror()
         {
-            if (this._userAgentToLower.Contains("konqueror"))
+            if (_userAgentToLower.Contains("konqueror"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("konqueror")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("konqueror")).Split('/');
                 var aversion = aresult[0].Split('/');
                 if (aversion.Count() >= 2)
                 {
-                    this.Version = aversion[1];
-                    this.BrowserName = Browser.Konqueror;
+                    Version = aversion[1];
+                    BrowserName = Browser.Konqueror;
 
                     return true;
                 }
@@ -745,14 +755,14 @@
 
         protected bool CheckBrowserIcab()
         {
-            if (this._userAgentToLower.Contains("icab"))
+            if (_userAgentToLower.Contains("icab"))
             {
-                var tempUserAgent = this._userAgentToLower.Replace('/', ' ');
+                var tempUserAgent = _userAgentToLower.Replace('/', ' ');
                 var aversion = tempUserAgent.Substring(tempUserAgent.IndexOf("icab")).Split(' ');
                 if (aversion.Count() >= 2)
                 {
-                    this.Version = aversion[1];
-                    this.BrowserName = Browser.Icab;
+                    Version = aversion[1];
+                    BrowserName = Browser.Icab;
 
                     return true;
                 }
@@ -763,12 +773,12 @@
 
         protected bool CheckBrowserOmniWeb()
         {
-            if (this._userAgentToLower.Contains("omniweb"))
+            if (_userAgentToLower.Contains("omniweb"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("omniweb")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("omniweb")).Split('/');
                 var averion = (aresult.Count() >= 2 ? aresult[1] : string.Empty).Split(' ');
-                this.Version = averion[0];
-                this.BrowserName = Browser.OmniWeb;
+                Version = averion[0];
+                BrowserName = Browser.OmniWeb;
 
                 return true;
             }
@@ -778,13 +788,13 @@
 
         protected bool CheckBrowserPhoenix()
         {
-            if (this._userAgentToLower.Contains("phoenix"))
+            if (_userAgentToLower.Contains("phoenix"))
             {
-                var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("phoenix")).Split('/');
+                var aversion = _userAgent.Substring(_userAgentToLower.IndexOf("phoenix")).Split('/');
                 if (aversion.Count() >= 2)
                 {
-                    this.Version = aversion[1];
-                    this.BrowserName = Browser.Phoenix;
+                    Version = aversion[1];
+                    BrowserName = Browser.Phoenix;
 
                     return true;
                 }
@@ -795,13 +805,13 @@
 
         protected bool CheckBrowserFirebird()
         {
-            if (this._userAgentToLower.Contains("firebird"))
+            if (_userAgentToLower.Contains("firebird"))
             {
-                var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("firebird")).Split('/');
+                var aversion = _userAgent.Substring(_userAgentToLower.IndexOf("firebird")).Split('/');
                 if (aversion.Count() >= 2)
                 {
-                    this.Version = aversion[1];
-                    this.BrowserName = Browser.Firebird;
+                    Version = aversion[1];
+                    BrowserName = Browser.Firebird;
 
                     return true;
                 }
@@ -812,14 +822,14 @@
 
         protected bool CheckBrowserNetscapeNavigator9Plus()
         {
-            if (this._userAgentToLower.Contains("firefox"))
+            if (_userAgentToLower.Contains("firefox"))
             {
                 var regex = new Regex(@"navigator/([^\s]+)");
-                var match = regex.Match(this._userAgentToLower);
+                var match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.NetscapeNavigator;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.NetscapeNavigator;
 
                     return true;
                 }
@@ -827,11 +837,11 @@
             else
             {
                 var regex = new Regex(@"netscape6/([^\s]+)");
-                var match = regex.Match(this._userAgentToLower);
+                var match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.NetscapeNavigator;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.NetscapeNavigator;
 
                     return true;
                 }
@@ -842,14 +852,14 @@
 
         protected bool CheckBrowserShiretoko()
         {
-            if (this._userAgentToLower.Contains("mozilla"))
+            if (_userAgentToLower.Contains("mozilla"))
             {
                 var regex = new Regex(@"shiretoko/([^\s]+)");
-                var match = regex.Match(this._userAgentToLower);
+                var match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.Shiretoko;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.Shiretoko;
 
                     return true;
                 }
@@ -860,14 +870,14 @@
 
         protected bool CheckBrowserIceCat()
         {
-            if (this._userAgentToLower.Contains("mozilla"))
+            if (_userAgentToLower.Contains("mozilla"))
             {
                 var regex = new Regex(@"ececat/([^\s]+)");
-                var match = regex.Match(this._userAgentToLower);
+                var match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.IceCat;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.IceCat;
 
                     return true;
                 }
@@ -879,20 +889,20 @@
         protected bool CheckBrowserNokia()
         {
             var regex = new Regex(@"nokia([^/]+)/([0-9\.]+)");
-            var match = regex.Match(this._userAgentToLower);
+            var match = regex.Match(_userAgentToLower);
             if (match.Success)
             {
-                this.Version = match.Groups[2].Value;
-                if (this._userAgentToLower.Contains("serias60") || this._userAgentToLower.Contains("s60"))
+                Version = match.Groups[2].Value;
+                if (_userAgentToLower.Contains("serias60") || _userAgentToLower.Contains("s60"))
                 {
-                    this.BrowserName = Browser.NokiaS60;
+                    BrowserName = Browser.NokiaS60;
                 }
                 else
                 {
-                    this.BrowserName = Browser.Nokia;
+                    BrowserName = Browser.Nokia;
                 }
 
-                this.IsMobile = true;
+                IsMobile = true;
 
                 return true;
             }
@@ -902,25 +912,25 @@
 
         protected bool CheckBrowserFireFox()
         {
-            if (!this._userAgentToLower.Contains("safari"))
+            if (!_userAgentToLower.Contains("safari"))
             {
                 var regex = new Regex(@"Firefox/([0-9a-zA-Z\.]+)");
-                var match = regex.Match(this._userAgent);
+                var match = regex.Match(_userAgent);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.Firefox;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.Firefox;
 
                     // FF on Android
-                    if (this._userAgentToLower.Contains("android"))
+                    if (_userAgentToLower.Contains("android"))
                     {
-                        if (this._userAgentToLower.Contains("mobile"))
+                        if (_userAgentToLower.Contains("mobile"))
                         {
-                            this.IsMobile = true;
+                            IsMobile = true;
                         }
                         else
                         {
-                            this.IsTablet = true;
+                            IsTablet = true;
                         }
                     }
 
@@ -928,11 +938,11 @@
                 }
 
                 regex = new Regex(@"firefox/");
-                match = regex.Match(this._userAgentToLower);
+                match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    this.Version = string.Empty;
-                    this.BrowserName = Browser.Firefox;
+                    Version = string.Empty;
+                    BrowserName = Browser.Firefox;
 
                     return true;
                 }
@@ -943,14 +953,14 @@
 
         protected bool CheckBrowserIceweasel()
         {
-            if (this._userAgentToLower.Contains("iceweasel"))
+            if (_userAgentToLower.Contains("iceweasel"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("iceweasel")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("iceweasel")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Iceweasel;
+                    Version = aversion[0];
+                    BrowserName = Browser.Iceweasel;
 
                     return true;
                 }
@@ -961,41 +971,41 @@
 
         protected bool CheckBrowserMozilla()
         {
-            if (this._userAgentToLower.Contains("mozilla") && !this._userAgentToLower.Contains("netscape"))
+            if (_userAgentToLower.Contains("mozilla") && !_userAgentToLower.Contains("netscape"))
             {
                 var regex = new Regex(@"rv:[0-9].[0-9a-b]");
-                var match = regex.Match(this._userAgentToLower);
+                var match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("rv:")).Split(' ');
+                    var aversion = _userAgent.Substring(_userAgentToLower.IndexOf("rv:")).Split(' ');
                     regex = new Regex(@"rv:[0-9].[0-9a-b]");
-                    match = regex.Match(this._userAgentToLower);
+                    match = regex.Match(_userAgentToLower);
                     if (match.Success)
                     {
-                        this.Version = match.Groups[0].Value.Replace("rv:", string.Empty);
-                        this.BrowserName = Browser.Mozilla;
+                        Version = match.Groups[0].Value.Replace("rv:", string.Empty);
+                        BrowserName = Browser.Mozilla;
 
                         return true;
                     }
                 }
 
                 regex = new Regex(@"rv:[0-9].[0-9]");
-                match = regex.Match(this._userAgentToLower);
+                match = regex.Match(_userAgentToLower);
                 if (match.Success)
                 {
-                    var aversion = this._userAgent.Substring(this._userAgentToLower.IndexOf("rv:")).Split(' ');
-                    this.Version = aversion[0].Replace("rv:", string.Empty);
-                    this.BrowserName = Browser.Mozilla;
+                    var aversion = _userAgent.Substring(_userAgentToLower.IndexOf("rv:")).Split(' ');
+                    Version = aversion[0].Replace("rv:", string.Empty);
+                    BrowserName = Browser.Mozilla;
 
                     return true;
                 }
 
                 regex = new Regex(@"Mozilla/([^\s]+)");
-                match = regex.Match(this._userAgent);
+                match = regex.Match(_userAgent);
                 if (match.Success)
                 {
-                    this.Version = match.Groups[1].Value;
-                    this.BrowserName = Browser.Mozilla;
+                    Version = match.Groups[1].Value;
+                    BrowserName = Browser.Mozilla;
 
                     return true;
                 }
@@ -1006,12 +1016,12 @@
 
         protected bool CheckBrowserLynx()
         {
-            if (this._userAgentToLower.Contains("lynx"))
+            if (_userAgentToLower.Contains("lynx"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("lynx")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("lynx")).Split('/');
                 var aversion = (aresult.Count() >= 2 ? aresult[1] : string.Empty).Split(' ');
-                this.Version = aversion[0];
-                this.BrowserName = Browser.Lynx;
+                Version = aversion[0];
+                BrowserName = Browser.Lynx;
 
                 return true;
             }
@@ -1021,14 +1031,14 @@
 
         protected bool CheckBrowserAmaya()
         {
-            if (this._userAgentToLower.Contains("amaya"))
+            if (_userAgentToLower.Contains("amaya"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("amaya")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("amaya")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Amaya;
+                    Version = aversion[0];
+                    BrowserName = Browser.Amaya;
 
                     return true;
                 }
@@ -1039,23 +1049,23 @@
 
         protected bool CheckBrowserSafari()
         {
-            if (this._userAgentToLower.Contains("safari") &&
-                !this._userAgentToLower.Contains("iphone") &&
-                !this._userAgentToLower.Contains("ipod"))
+            if (_userAgentToLower.Contains("safari") &&
+                !_userAgentToLower.Contains("iphone") &&
+                !_userAgentToLower.Contains("ipod"))
             {
-                this.Version = Unknown;
-                var index = this._userAgentToLower.IndexOf("version");
+                Version = Unknown;
+                var index = _userAgentToLower.IndexOf("version");
                 if (index >= 0)
                 {
-                    var aresult = this._userAgent.Substring(index).Split('/');
+                    var aresult = _userAgent.Substring(index).Split('/');
                     if (aresult.Count() >= 2)
                     {
                         var aversion = aresult[1].Split(' ');
-                        this.Version = aversion[0];
+                        Version = aversion[0];
                     }
                 }
 
-                this.BrowserName = Browser.Safari;
+                BrowserName = Browser.Safari;
 
                 return true;
             }
@@ -1065,10 +1075,10 @@
 
         protected bool CheckFacebookExternalHit()
         {
-            if (this._userAgentToLower.Contains("facebookexternalhit"))
+            if (_userAgentToLower.Contains("facebookexternalhit"))
             {
-                this.IsRobot = true;
-                this.IsFacebook = true;
+                IsRobot = true;
+                IsFacebook = true;
 
                 return true;
             }
@@ -1078,9 +1088,9 @@
 
         protected bool CheckFacebookIos()
         {
-            if (this._userAgentToLower.Contains("fbios"))
+            if (_userAgentToLower.Contains("fbios"))
             {
-                this.IsFacebook = true;
+                IsFacebook = true;
 
                 return true;
             }
@@ -1090,14 +1100,14 @@
 
         protected bool GetSafariOnIos()
         {
-            if (this._userAgentToLower.Contains("version"))
+            if (_userAgentToLower.Contains("version"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("version")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("version")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.BrowserName = Browser.Safari;
-                    this.Version = aversion[0];
+                    BrowserName = Browser.Safari;
+                    Version = aversion[0];
 
                     return true;
                 }
@@ -1108,14 +1118,14 @@
 
         protected bool GetChromeOnIos()
         {
-            if (this._userAgentToLower.Contains("crios"))
+            if (_userAgentToLower.Contains("crios"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("crios")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("crios")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Chrome;
+                    Version = aversion[0];
+                    BrowserName = Browser.Chrome;
 
                     return true;
                 }
@@ -1126,14 +1136,14 @@
 
         protected bool CheckBrowseriPhone()
         {
-            if (this._userAgentToLower.Contains("iphone"))
+            if (_userAgentToLower.Contains("iphone"))
             {
-                this.Version = Unknown;
-                this.BrowserName = Browser.Iphone;
-                this.GetSafariOnIos();
-                this.GetChromeOnIos();
-                this.CheckFacebookIos();
-                this.IsMobile = true;
+                Version = Unknown;
+                BrowserName = Browser.Iphone;
+                GetSafariOnIos();
+                GetChromeOnIos();
+                CheckFacebookIos();
+                IsMobile = true;
 
                 return true;
             }
@@ -1143,14 +1153,14 @@
 
         protected bool CheckBrowseriPad()
         {
-            if (this._userAgentToLower.Contains("ipad"))
+            if (_userAgentToLower.Contains("ipad"))
             {
-                this.Version = Unknown;
-                this.BrowserName = Browser.Ipad;
-                this.GetSafariOnIos();
-                this.GetChromeOnIos();
-                this.CheckFacebookIos();
-                this.IsTablet = true;
+                Version = Unknown;
+                BrowserName = Browser.Ipad;
+                GetSafariOnIos();
+                GetChromeOnIos();
+                CheckFacebookIos();
+                IsTablet = true;
 
                 return true;
             }
@@ -1160,14 +1170,14 @@
 
         protected bool CheckBrowseriPod()
         {
-            if (this._userAgentToLower.Contains("ipod"))
+            if (_userAgentToLower.Contains("ipod"))
             {
-                this.Version = Unknown;
-                this.BrowserName = Browser.Ipod;
-                this.GetSafariOnIos();
-                this.GetChromeOnIos();
-                this.CheckFacebookIos();
-                this.IsMobile = true;
+                Version = Unknown;
+                BrowserName = Browser.Ipod;
+                GetSafariOnIos();
+                GetChromeOnIos();
+                CheckFacebookIos();
+                IsMobile = true;
 
                 return true;
             }
@@ -1177,29 +1187,29 @@
 
         protected bool CheckBrowserAndroid()
         {
-            if (this._userAgentToLower.Contains("android"))
+            if (_userAgentToLower.Contains("android"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("android")).Split(' ');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("android")).Split(' ');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
-                    this.Version = aversion[0];
+                    Version = aversion[0];
                 }
                 else
                 {
-                    this.Version = Unknown;
+                    Version = Unknown;
                 }
 
-                if (this._userAgentToLower.Contains("mobile"))
+                if (_userAgentToLower.Contains("mobile"))
                 {
-                    this.IsMobile = true;
+                    IsMobile = true;
                 }
                 else
                 {
-                    this.IsTablet = true;
+                    IsTablet = true;
                 }
 
-                this.BrowserName = Browser.Android;
+                BrowserName = Browser.Android;
 
                 return true;
             }
@@ -1209,30 +1219,40 @@
 
         protected bool CheckBrowserEdge()
         {
-            if (this._userAgentToLower.Contains("edge"))
+            if (_userAgentToLower.Contains("edge"))
             {
-                var aresult = this._userAgent.Substring(this._userAgentToLower.IndexOf("edge")).Split('/');
+                var aresult = _userAgent.Substring(_userAgentToLower.IndexOf("edge")).Split('/');
                 if (aresult.Count() >= 2)
                 {
                     var aversion = aresult[1].Split(' ');
 
-                    this.Version = aversion[0];
-                    this.BrowserName = Browser.Edge;
+                    Version = aversion[0];
+                    BrowserName = Browser.Edge;
 
-                    if (this._userAgentToLower.Contains("android"))
+                    if (_userAgentToLower.Contains("android"))
                     {
-                        if (this._userAgentToLower.Contains("mobile"))
+                        if (_userAgentToLower.Contains("mobile"))
                         {
-                            this.IsMobile = true;
+                            IsMobile = true;
                         }
                         else
                         {
-                            this.IsTablet = true;
+                            IsTablet = true;
                         }
                     }
 
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        protected bool CheckChromeFrame()
+        {
+            if (_userAgentToLower.Contains("chromeframe"))
+            {
+                _isChromeFrame = true;
             }
 
             return false;

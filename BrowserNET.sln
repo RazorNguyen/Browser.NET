@@ -3,21 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserNET", "BrowserNET\BrowserNET.csproj", "{EBC41E8C-4A30-4FBC-9D99-616807273522}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F2F6802-5A0E-458B-B5B1-3BEC709A9E0F}"
-	ProjectSection(SolutionItems) = preProject
-		Browser.NET.vsmdi = Browser.NET.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserNET.IntegrationTests", "BrowserNET.IntegrationTests\BrowserNET.IntegrationTests.csproj", "{191B748A-7259-4438-8FCD-2DB535EF823A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserNET.UnitTests", "BrowserNET.UnitTests\BrowserNET.UnitTests.csproj", "{B68B2ECA-EE8E-46E6-9BAC-F13A0A5B7FD8}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Browser.NET.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
